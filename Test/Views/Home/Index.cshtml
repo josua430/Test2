@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+}
+
+<h1>Test</h1>
+<div class="container-fluid placeholders">
+    <div class="row">
+        @{
+            Test.Models.user userAct = new Test.Models.user();
+            userAct = (ViewBag.userData as Test.Models.user);
+        }
+        <h6>Welcome: @userAct.UserName</h6>
+        <h6>Role: @userAct.Role</h6>
+        <h6>Age: @userAct.Age</h6>
+        <h6>Gender: @userAct.Gender</h6>
+        <h6>Nationality: @userAct.Nationality</h6>
+
+        @if (userAct.Role == "admin")
+        {
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                List of logins
+            </button>
+        }
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">List of Logins</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @if (ViewBag.loginsData != null)
+                        {
+                        <table id="tableLogins" border="1">
+                            <tr><th>Login</th><th>Date</th></tr>
+
+                            @{
+                                List<Test.Models.loginsList> listOfLogins = new List<Test.Models.loginsList>();
+                                listOfLogins = ViewBag.loginsData as List<Test.Models.loginsList>;
+                                foreach (var record in listOfLogins)
+                                {
+                                    <tr><td>@record.login</td><td>@record.date</td></tr>
+                                }
+                            }
+                        </table>
+                                }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        @if (!String.IsNullOrEmpty(ViewBag.Error))
+        {
+            @Html.Raw((string.Format("ShowMessageError('{0}');", ViewBag.Error )))
+        }
+
+        @if (!String.IsNullOrEmpty(ViewBag.Success))
+        {
+            @Html.Raw((string.Format("ShowMessageSuccess('{0}');", ViewBag.Success)))
+        }
+
+    });
+
+
+</script>
+

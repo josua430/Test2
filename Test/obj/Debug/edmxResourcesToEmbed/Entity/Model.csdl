@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="testRealModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="logins">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="date" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="age" Type="Int32" />
+    <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="reserves" Relationship="testRealModel.FK_reserves_user" FromRole="user" ToRole="reserves" />
+  </EntityType>
+  <EntityContainer Name="testRealEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="logins" EntityType="Self.logins" />
+    <EntitySet Name="user" EntityType="Self.user" />
+    <EntitySet Name="products" EntityType="testRealModel.products" />
+    <EntitySet Name="reserves" EntityType="testRealModel.reserves" />
+    <AssociationSet Name="FK_reserves_Products" Association="testRealModel.FK_reserves_Products">
+      <End Role="products" EntitySet="products" />
+      <End Role="reserves" EntitySet="reserves" />
+    </AssociationSet>
+    <AssociationSet Name="FK_reserves_user" Association="testRealModel.FK_reserves_user">
+      <End Role="user" EntitySet="user" />
+      <End Role="reserves" EntitySet="reserves" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="products">
+    <Key>
+      <PropertyRef Name="productId" />
+    </Key>
+    <Property Name="productId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="amount" Type="Decimal" Precision="5" Scale="0" />
+    <NavigationProperty Name="reserves" Relationship="testRealModel.FK_reserves_Products" FromRole="products" ToRole="reserves" />
+  </EntityType>
+  <EntityType Name="reserves">
+    <Key>
+      <PropertyRef Name="idreserve" />
+    </Key>
+    <Property Name="idreserve" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="iduser" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="idproduct" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="amountreserved" Type="Decimal" Precision="5" Scale="0" />
+    <Property Name="datereserved" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="products" Relationship="testRealModel.FK_reserves_Products" FromRole="reserves" ToRole="products" />
+    <NavigationProperty Name="user" Relationship="testRealModel.FK_reserves_user" FromRole="reserves" ToRole="user" />
+  </EntityType>
+  <Association Name="FK_reserves_Products">
+    <End Type="testRealModel.products" Role="products" Multiplicity="0..1" />
+    <End Type="testRealModel.reserves" Role="reserves" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="products">
+        <PropertyRef Name="productId" />
+      </Principal>
+      <Dependent Role="reserves">
+        <PropertyRef Name="idproduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_reserves_user">
+    <End Type="testRealModel.user" Role="user" Multiplicity="0..1" />
+    <End Type="testRealModel.reserves" Role="reserves" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="reserves">
+        <PropertyRef Name="iduser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
