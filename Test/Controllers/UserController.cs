@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace Test.Controllers
 {
     /// <summary>
-    /// Post controller
+    /// controller
     /// </summary>
     public class UserController : Controller
     {
@@ -138,8 +138,8 @@ namespace Test.Controllers
                         return RedirectToAction("Index", "User");
                     }
                     model.UserName = objUser.login;
-                    model.Password = objUser.password;
-                    model.Password2 = objUser.password;
+                    model.Password = clsCrypt.Decrypt(objUser.password);
+                    model.Password2 = model.Password;
                     model.Role = objUser.role;
                     model.Gender = objUser.gender;
                     model.Age = objUser.age == null ? "" : objUser.age.ToString();

@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+    ViewBag.Opcion = "Manage";
+    ViewBag.SubOpcion = "Detail Reserves";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="POST">
+    <div class="col-md-12">
+        <div class="box box-primary" style="height: 100%">
+            <br />
+            @if (ViewBag.DataProducts != null)
+            {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Reserves</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{var listData = (ViewBag.DataProducts as List<Test.Models.Products>);
+                        foreach (var product in listData)
+                        {
+                        <tr>
+                            <th scope="row">@product.description</th>
+                            <td>
+                                @{
+                                    if (@product.reserves != null && product.reserves.Count > 0)
+                                    {
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">User</th>
+                                                    <th scope="col">Amount</th>
+                                                    <th scope="col">Date Reserved</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{ foreach (var reserve in product.reserves)
+                                                    {
+                                                        <tr>
+                                                            <th scope="row">@reserve.userlogin</th>
+                                                            <td>@reserve.amountReserved</td>
+                                                            <td>@reserve.strDateReserved</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                                    }
+                                }
+
+                            </td>
+                        </tr>
+                                                    }
+                    }
+                </tbody>
+            </table>
+                                                    }
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        @if (!String.IsNullOrEmpty(ViewBag.Error))
+        {
+            @Html.Raw((string.Format("ShowMessageError('{0}');", ViewBag.Error )))
+        }
+
+        @if (!String.IsNullOrEmpty(ViewBag.Success))
+        {
+            @Html.Raw((string.Format("ShowMessageSuccess('{0}');", ViewBag.Success)))
+        }
+
+    });
+</script>

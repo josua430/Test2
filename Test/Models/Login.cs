@@ -6,7 +6,7 @@ using System.Web;
 namespace Test.Models
 {
     /// <summary>
-    /// model for login
+    /// model for login used in AngularJS
     /// </summary>
     public class Login
     {

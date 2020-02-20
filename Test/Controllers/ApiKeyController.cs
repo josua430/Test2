@@ -6,6 +6,10 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Http;
+using WebApi.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Test.Controllers
 {
@@ -28,7 +32,7 @@ namespace Test.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var model = new Models.changekey();
+            var model = new changekey();
             return View(model);
         }
 
@@ -38,23 +42,27 @@ namespace Test.Controllers
         /// <param name="objKey">object with data for update</param>
         /// <returns>View</returns>
         [HttpPost]
-        public ActionResult Update(Models.changekey objKey)
+        public ActionResult Update(changekey objKey)
         {
             try
             {
-                ApiKey.clsKey objKeyAPI = new ApiKey.clsKey();
-
-                string strResult = objKeyAPI.changeKey(objKey.DevName, objKey.newKey);
-                if (strResult == "Ok")
+                //call to webAPI for update key
+                var stringContent = new StringContent(JsonConvert.SerializeObject(objKey), Encoding.UTF8, "application/json");
+                using (var client = new HttpClient())
                 {
-                    TempData["Success"] = "Update successfull!";
-                    return RedirectToAction("Index", "Home");
+                    client.BaseAddress = new Uri("http://localhost:61978");
+                    var response = client.PostAsync("/api/Values", stringContent);
 
-                }else
-                {
-                    ViewBag.Error = strResult;
-                    return View(objKey);
+                    if (response.Result.IsSuccessStatusCode)
+                    {
+                        TempData["Success"] = "Update successfull!";
+                        return RedirectToAction("Index", "Home");
+
+                    }
+                    ViewBag.Error = "Error updating Key";
                 }
+
+                return View(objKey);
 
             }
             catch (Exception ex)

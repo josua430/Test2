@@ -25,7 +25,6 @@ namespace WebApi.Entity
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Clientes> Clientes { get; set; }
-        public virtual DbSet<Pedidos> Pedidos { get; set; }
+        public virtual DbSet<key> key { get; set; }
     }
 }

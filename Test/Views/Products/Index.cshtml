@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+    ViewBag.Opcion = "Manage";
+    ViewBag.SubOpcion = "Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form method="POST">
+
+    <div class="col-md-12">
+        <div class="box box-primary" style="height: 100%">
+            <br />
+            <div id="grid"></div>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    var dsUsuario = new kendo.data.DataSource({
+        pageSize:10,
+        transport: {
+            read: {
+                url: "@Url.Action("LoadGrid", "Products")",
+            type: "POST"
+        }
+    },
+        schema: {
+            model: {
+                id: "productId",
+                fields: {
+                    productId:{editable:false}
+        }
+    }
+    }
+    });
+    var gridUsuario = $("#grid").kendoGrid({
+        toolbar: ["excel"],
+        excel: {
+            allPages: true
+        },
+        excelExport: function (e) {
+            e.workbook.fileName = "product.xlsx";
+        },
+        columns: [
+            { field: "productId", title: "Id", hidden:true },
+            { field: "description", title: "Description" },
+            { field: "amount", title: "Amount" }
+            @MvcHtmlString.Create(@" ,{ template: ""<a class='btn btn-success' href='" + (Url.Action("Update", "Products")) + "?id=#= productId #'><span class='fa fa-edit'></span> Edit</a>" + @"""}")
+    ],
+    sortable:true,
+    scrollable: true,
+    pageable: {
+        pageSizes: false,
+        messages: {
+            itemsPerPage: "Records by page",
+            display: "Showing {0}-{1} of {2} records"
+        }
+    },
+    culture: "es-CO",
+        dataSource: dsUsuario
+    }).data("kendoGrid");
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        @if (!String.IsNullOrEmpty(ViewBag.Error))
+        {
+            @Html.Raw((string.Format("ShowMessageError('{0}');", ViewBag.Error )))
+        }
+
+        @if (!String.IsNullOrEmpty(ViewBag.Success))
+        {
+            @Html.Raw((string.Format("ShowMessageSuccess('{0}');", ViewBag.Success)))
+        }
+
+    });
+</script>

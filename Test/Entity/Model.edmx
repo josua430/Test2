@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="testRealModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="key">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="keycode" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="logins">
           <Key>
             <PropertyRef Name="id" />
@@ -68,6 +75,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="testRealModelStoreContainer">
+          <EntitySet Name="key" EntityType="Self.key" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="logins" EntityType="Self.logins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="reserves" EntityType="Self.reserves" Schema="dbo" store:Type="Tables" />
@@ -119,6 +127,7 @@
             <End Role="user" EntitySet="user" />
             <End Role="reserves" EntitySet="reserves" />
           </AssociationSet>
+          <EntitySet Name="key" EntityType="testRealModel.key1" />
         </EntityContainer>
         <EntityType Name="products">
           <Key>
@@ -165,6 +174,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="key1">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="keycode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -210,6 +226,14 @@
                 <ScalarProperty Name="idproduct" ColumnName="idproduct" />
                 <ScalarProperty Name="iduser" ColumnName="iduser" />
                 <ScalarProperty Name="idreserve" ColumnName="idreserve" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="key">
+            <EntityTypeMapping TypeName="testRealModel.key1">
+              <MappingFragment StoreEntitySet="key">
+                <ScalarProperty Name="keycode" ColumnName="keycode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -33,7 +33,7 @@ namespace Test.Helpers
             return clearText;
         }
 
-        private static string Decrypt(string cipherText)
+        public static string Decrypt(string cipherText)
         {
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using (Aes encryptor = Aes.Create())

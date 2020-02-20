@@ -126,7 +126,22 @@
                         <a href="@Url.Action("Index", "User")"><i class="fa fa-user"></i> User</a>
                     </li>
                     <li>
+                        <a href="@Url.Action("Index", "Products")"><i class="fa fa-product-hunt"></i> Products</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Detail", "Reserve")"><i class="fa fa-list"></i> List of Reserves</a>
+                    </li>
+                    <li>
                         <a href="@Url.Action("Update", "ApiKey")"><i class="fa fa-key"></i> Change Key</a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Reserve")"><i class="fa fa-arrow-circle-down"></i> Reserve</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("List", "Reserve")"><i class="fa fa-list"></i> List of Reserves</a>
                     </li>
                 }
                 <li>
