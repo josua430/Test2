@@ -5,10 +5,10 @@ using Test.Helpers;
 namespace UnitTestProject
 {
     /// <summary>
-    /// test classes for Posts
+    /// test classes for solution
     /// </summary>
     [TestClass]
-    public class UnitTestPosts
+    public class UnitTestSolution
     {
         /// <summary>
         /// Not Exists id

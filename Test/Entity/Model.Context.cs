@@ -29,5 +29,6 @@ namespace Test.Entity
         public virtual DbSet<user> user { get; set; }
         public virtual DbSet<products> products { get; set; }
         public virtual DbSet<reserves> reserves { get; set; }
+        public virtual DbSet<key1> key { get; set; }
     }
 }

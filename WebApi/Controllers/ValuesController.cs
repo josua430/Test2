@@ -4,36 +4,58 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebApi.Models;
 
 namespace WebApi.Controllers
 {
     public class ValuesController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+
+        /// <summary>
+        /// string with developer's name
+        /// </summary>
+        private const string DeveloperName = "Jose Alberto Suarez Blanco";
+
+        /// <summary>
+        /// POST for Change the Key
+        /// </summary>
+        /// <param name="strFullNameDeveloper">name of developer</param>
+        /// <param name="strNewKey">new key</param>
+        /// <returns>string with result</returns>
+        public IHttpActionResult Post(changekey objValues)
         {
-            return new string[] { "value1", "value2" };
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid data.");
+
+            if (objValues.DevName != DeveloperName)
+            {
+                return BadRequest("Error updating Key.");
+            }
+            else
+            {
+                //update key
+                using (var context = new Entity.TestEntities())
+                {
+                    var keyUpd = context.key.FirstOrDefault();
+                    if (keyUpd == null)
+                    {
+                        //create new
+                        var objNewKey = new Entity.key();
+                        objNewKey.keycode = objValues.newKey;
+                        context.key.Add(objNewKey);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        //update
+                        keyUpd.keycode = objValues.newKey;
+                        context.SaveChanges();
+                    }
+                }
+            }
+
+            return Ok();
         }
 
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-        }
     }
 }

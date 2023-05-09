@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.DirectoryServices;
+using Test.Helpers;
 
 namespace Test.Controllers
 {
@@ -37,7 +38,7 @@ namespace Test.Controllers
         public string Login(Login data)
         {
             string strUsername = data.UserName;
-            string strPassword = data.Password;
+            string strPassword = clsCrypt.Encrypt(data.Password.Trim());
             try
             {
                 using (var context = new Test.Entity.testRealEntities())
@@ -48,11 +49,12 @@ namespace Test.Controllers
                     {
                         //found
                         var userAct = new Models.user();
-                        userAct.Age = user.age == null ? "":user.age.ToString() ;
+                        userAct.Age = user.age == null ? "" : user.age.ToString() ;
                         userAct.Role = user.role;
                         userAct.Gender = user.gender;
                         userAct.Nationality = user.nationality;
                         userAct.UserName = user.login;
+                        userAct.IdUser = (int)user.Id;
                         Session[Helpers.Constant.USUARIO] = userAct;
 
                         //save login to db

@@ -5,12 +5,15 @@ using System.Web;
 
 namespace Test.Models
 {
+    /// <summary>
+    /// class for user
+    /// </summary>
     public class user
     {
         /// <summary>
         /// Id
         /// </summary>
-        public int IdUser{ get; set; }
+        public int IdUser { get; set; }
         /// <summary>
         /// user name
         /// </summary>

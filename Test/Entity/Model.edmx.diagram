@@ -11,6 +11,7 @@
         <EntityTypeShape EntityType="testRealModel.reserves" Width="1.5" PointX="5" PointY="0.875" />
         <AssociationConnector Association="testRealModel.FK_reserves_Products" />
         <AssociationConnector Association="testRealModel.FK_reserves_user" />
+        <EntityTypeShape EntityType="testRealModel.key1" Width="1.5" PointX="0.625" PointY="2.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
